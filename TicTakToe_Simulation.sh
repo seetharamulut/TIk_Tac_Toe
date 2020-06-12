@@ -87,6 +87,27 @@ function checkToBlock(){
 	fi
 }
 
+function checkForCorner(){
+
+        if [ ${array[$1]} == "." ]
+        then
+        	array[$1]=$computer_Symbol
+                valueSet=1
+        elif [ ${array[$2]} == "." ]
+        then
+                array[$2]=$computer_Symbol
+                valueSet=1
+	elif [ ${array[$3]} == "." ]
+        then
+                array[$3]=$computer_Symbol
+                valueSet=1
+	elif [ ${array[$4]} == "." ]
+        then
+                array[$4]=$computer_Symbol
+                valueSet=1
+	fi
+}
+
 function tieCheck(){
 
 	if [ ${array[0]} != "." ] && [ ${array[1]} != "." ] && [ ${array[2]} != "." ] && [ ${array[3]} != "." ] && [ ${array[4]} != "." ] && 
@@ -204,6 +225,7 @@ function computerInput(){
         checkToBlock 0 4 8
         checkToBlock 2 4 6
 
+	checkForCorner 0 2 6 8
 }
 
 function playerInput(){
