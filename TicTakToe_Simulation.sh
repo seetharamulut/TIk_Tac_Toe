@@ -78,19 +78,29 @@ function toss(){
 
 function assignSymbol(){
 
-        if [ $(( $RANDOM%2 )) -eq 1 ]
-        then
-                player_One_Symbol=X
-		player_Two_Symbol=O
-        else
-		player_One_Symbol=O
-                player_Two_Symbol=X
-        fi
+	case $mode in
+		1) if [ $(( $RANDOM%2 )) -eq 1 ]
+	           then
+			player_One_Symbol=X
+                	computer_Symbol=O
+        	   else
+                	player_One_Symbol=O
+                	computer_Symbol=X
+        	   fi
+        	   echo "player one symbol is : "$player_One_Symbol
+       		   echo "computer symbol is : "$computer_Symbol ;;
 
-        echo "player one symbol is : "$player_One_Symbol
-	echo "player two symbol is : "$player_Two_Symbol
-
-        toss
+        	2) if [ $(( $RANDOM%2 )) -eq 1 ]
+        	   then
+                	player_One_Symbol=X
+			player_Two_Symbol=O
+        	   else
+			player_One_Symbol=O
+                	player_Two_Symbol=X
+        	   fi
+        	   echo "player one symbol is : "$player_One_Symbol
+		   echo "player two symbol is : "$player_Two_Symbol ;;
+	esac
 }
 
 function setBoard(){
@@ -132,13 +142,49 @@ function playerInput(){
 
 }
 
+function gameMode(){
+
+	echo "select"
+	echo "1) vs compute"
+	echo "2) two players"
+
+	read -r mode
+}
+
+function statusOfGame(){
+
+	 if [ $game_Status -eq 0 ]
+                then
+                        printBoard
+                        echo "player "$player "won the game"
+                elif [ $game_Status -eq 2 ]
+                then
+                        print_Board
+                        echo "match tied"
+                        game_Status=0
+                else
+                        player=$(( (( $player%2 ))+1 ))
+
+                        echo "player "$player "turn"
+                fi
+}
+
 function gameStart(){
 
 	reset
 
+	gameMode
+
         assignSymbol
 
-        echo "player "$player "turn"
+	toss
+
+	if [ $mode -eq 1 ] && [ $player -eq 2 ]
+	then
+		echo "computer turn"
+	else
+        	echo "player "$player "turn"
+	fi
 
 	while [ $game_Status -eq 1 ]
 	do
@@ -148,20 +194,7 @@ function gameStart(){
 
 		checkBoard
 
-		if [ $game_Status -eq 0 ]
-		then 
-			printBoard
-			echo "player "$player "won the game"
-		elif [ $game_Status -eq 2 ]
-		then
-			print_Board
-			echo "match tied"
-			game_Status=0
-		else
-			player=$(( (( $player%2 ))+1 ))
-
-			echo "player "$player "turn"
-		fi
+		statusOfGame
 	done
 }
 
