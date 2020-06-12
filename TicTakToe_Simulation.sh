@@ -18,10 +18,15 @@ function statusOfGame(){
          if [ $game_Status -eq 0 ]
                 then
                         printBoard
-                        echo "player "$player "won the game"
+			if [ $mode -eq 1 ] && [ $player -eq 2 ]
+                        then
+                                echo "computer won the game"
+                        else
+                                echo "player "$player "won the game"
+			fi
                 elif [ $game_Status -eq 2 ]
                 then
-                        print_Board
+                        printBoard
                         echo "match tied"
                         game_Status=0
                 else
@@ -89,22 +94,37 @@ function checkToBlock(){
 
 function checkForCorner(){
 
-        if [ ${array[$1]} == "." ]
+	if [ $valueSet -eq 0 ]
         then
-        	array[$1]=$computer_Symbol
-                valueSet=1
-        elif [ ${array[$2]} == "." ]
+        	if [ ${array[$1]} == "." ]
+        	then
+        		array[$1]=$computer_Symbol
+			valueSet=1
+        	elif [ ${array[$2]} == "." ]
+        	then
+                	array[$2]=$computer_Symbol
+			valueSet=1
+		elif [ ${array[$3]} == "." ]
+        	then
+                	array[$3]=$computer_Symbol
+			valueSet=1
+		elif [ ${array[$4]} == "." ]
+        	then
+                	array[$4]=$computer_Symbol
+			valueSet=1
+		fi
+	fi
+}
+
+function checkForCentre(){
+
+	if [ $valueSet -eq 0 ]
         then
-                array[$2]=$computer_Symbol
-                valueSet=1
-	elif [ ${array[$3]} == "." ]
-        then
-                array[$3]=$computer_Symbol
-                valueSet=1
-	elif [ ${array[$4]} == "." ]
-        then
-                array[$4]=$computer_Symbol
-                valueSet=1
+		if [ ${array[$1]} == "." ]
+		then
+			array[$1]=$computer_Symbol
+			valueSet=1
+		fi
 	fi
 }
 
@@ -226,6 +246,8 @@ function computerInput(){
         checkToBlock 2 4 6
 
 	checkForCorner 0 2 6 8
+
+	checkForCentre 4
 }
 
 function playerInput(){
