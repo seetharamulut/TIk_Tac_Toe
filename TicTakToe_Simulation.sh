@@ -6,19 +6,58 @@ echo "Starting a new game"
 
 function reset(){
 
-	player=1
+  	player=1
 
 	array=(. . . . . . . . . )
 
 	game_Status=1
 }
 
+function statusOfGame(){
+
+         if [ $game_Status -eq 0 ]
+                then
+                        printBoard
+                        echo "player "$player "won the game"
+                elif [ $game_Status -eq 2 ]
+                then
+                        print_Board
+                        echo "match tied"
+                        game_Status=0
+                else
+                        player=$(( (( $player%2 ))+1 ))
+
+			if [ $mode -eq 1 ] && [ $player -eq 2 ]
+			then
+				echo "computer turn"
+			else
+                        	echo "player "$player "turn"
+                	fi
+	fi
+}
+
 function checkmatch(){
 
+	case $computer_Option in
+		checkToWin) if [ ${array[$1]} == $computer_Symbol ] && [ ${array[$2]} == $computer_Symbol ] && [ ${array[$3]} == "." ]
+			    then 
+					array[$3]=$computer_Symbol
+			    elif [ ${array[$1]} == $computer_Symbol ] && [ ${array[$2]} == "." ] && [ ${array[$3]} == $computer_Symbol ]
+			    then 
+					 array[$2]=$computer_Symbol
+			    elif [ ${array[$1]} == "." ] && [ ${array[$2]} == $computer_Symbol ] && [ ${array[$3]} == $computer_Symbol ]
+			    then
+					array[$1]=$computer_Symbol
+			    fi ;;
+
+		nothing) echo " " ;;
+	esac 
+
 	if [ ${array[$1]} != "." ] && [ ${array[$1]} == ${array[$2]} ] && [ ${array[$2]} == ${array[$3]} ]
-	then
-		game_Status=0
-	fi
+        then
+                game_Status=0
+        fi
+
 }
 
 function tieCheck(){
@@ -115,6 +154,10 @@ function setBoard(){
 	fi
 }
 
+function computerInput(){
+
+	computer_Option=checkToWin
+}
 
 function playerInput(){
 
@@ -142,6 +185,19 @@ function playerInput(){
 
 }
 
+function playerSelection(){
+
+	case $mode in
+		1) if [ $player -eq 1 ]
+		   then
+			playerInput
+		   else
+			computerInput
+		   fi ;;
+		2) playerInput
+	esac
+}
+
 function gameMode(){
 
 	echo "select"
@@ -151,25 +207,30 @@ function gameMode(){
 	read -r mode
 }
 
-function statusOfGame(){
+function gameVsComputer(){
 
-	 if [ $game_Status -eq 0 ]
-                then
-                        printBoard
-                        echo "player "$player "won the game"
-                elif [ $game_Status -eq 2 ]
-                then
-                        print_Board
-                        echo "match tied"
-                        game_Status=0
-                else
-                        player=$(( (( $player%2 ))+1 ))
+ 	if [ $player -eq 2 ]
+        then
+               	echo "computer turn"
+        else
+                echo "player one turn"
+        fi
 
-                        echo "player "$player "turn"
-                fi
+        while [ $game_Status -eq 1 ]
+        do
+                printBoard
+
+                playerSelection
+
+                checkBoard
+
+                statusOfGame
+        done
 }
 
 function gameStart(){
+
+	computer_Option=nothing
 
 	reset
 
@@ -179,23 +240,20 @@ function gameStart(){
 
 	toss
 
-	if [ $mode -eq 1 ] && [ $player -eq 2 ]
+	if [ $mode -eq 1 ]
 	then
-		echo "computer turn"
+		gameVsComputer
 	else
-        	echo "player "$player "turn"
+	        echo "player "$player "turn"
+
+		while [ $game_Status -eq 1 ]
+		do
+        		printBoard
+			playerInput
+			checkBoard
+			statusOfGame
+		done
 	fi
-
-	while [ $game_Status -eq 1 ]
-	do
-        	printBoard
-
-		playerInput
-
-		checkBoard
-
-		statusOfGame
-	done
 }
 
 gameStart
