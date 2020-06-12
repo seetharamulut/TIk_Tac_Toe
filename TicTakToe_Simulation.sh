@@ -10,12 +10,12 @@ function reset(){
 
 	array=(. . . . . . . . . )
 
-	game_Status=1
+	gameStatus=1
 }
 
 function statusOfGame(){
 
-         if [ $game_Status -eq 0 ]
+         if [ $gameStatus -eq 0 ]
                 then
                         printBoard
 			if [ $mode -eq 1 ] && [ $player -eq 2 ]
@@ -24,11 +24,11 @@ function statusOfGame(){
                         else
                                 echo "player "$player "won the game"
 			fi
-                elif [ $game_Status -eq 2 ]
+                elif [ $gameStatus -eq 2 ]
                 then
                         printBoard
                         echo "match tied"
-                        game_Status=0
+                        gameStatus=0
                 else
                         player=$(( (( $player%2 ))+1 ))
 
@@ -44,7 +44,7 @@ function statusOfGame(){
 function checkmatch(){
 	if [ ${array[$1]} != "." ] && [ ${array[$1]} == ${array[$2]} ] && [ ${array[$2]} == ${array[$3]} ]
         then
-                game_Status=0
+                gameStatus=0
         fi
 
 }
@@ -54,17 +54,17 @@ function checkToWin(){
 
 	if [ $valueSet -eq 0 ]
 	then
-		if [ ${array[$1]} == $computer_Symbol ] && [ ${array[$2]} == $computer_Symbol ] && [ ${array[$3]} == "." ]
+		if [ ${array[$1]} == $computerSymbol ] && [ ${array[$2]} == $computerSymbol ] && [ ${array[$3]} == "." ]
 		then 
-			array[$3]=$computer_Symbol
+			array[$3]=$computerSymbol
 			valueSet=1
-		elif [ ${array[$1]} == $computer_Symbol ] && [ ${array[$2]} == "." ] && [ ${array[$3]} == $computer_Symbol ]
+		elif [ ${array[$1]} == $computerSymbol ] && [ ${array[$2]} == "." ] && [ ${array[$3]} == $computerSymbol ]
 		then 
-			array[$2]=$computer_Symbol
+			array[$2]=$computerSymbol
 			valueSet=1
-		elif [ ${array[$1]} == "." ] && [ ${array[$2]} == $computer_Symbol ] && [ ${array[$3]} == $computer_Symbol ]
+		elif [ ${array[$1]} == "." ] && [ ${array[$2]} == $computerSymbol ] && [ ${array[$3]} == $computerSymbol ]
 		then
-			array[$1]=$computer_Symbol
+			array[$1]=$computerSymbol
 			valueSet=1
 		fi 
 	fi
@@ -76,17 +76,17 @@ function checkToBlock(){
 	if [ $valueSet -eq 0 ]
         then
 
-		if [ ${array[$1]} == $player_One_Symbol ] && [ ${array[$2]} == $player_One_Symbol ] && [ ${array[$3]} == "." ]
+		if [ ${array[$1]} == $playerOneSymbol ] && [ ${array[$2]} == $playerOneSymbol ] && [ ${array[$3]} == "." ]
         	then
-        		array[$3]=$computer_Symbol
+        		array[$3]=$computerSymbol
 			valueSet=1
-        	elif [ ${array[$1]} == $player_One_Symbol ] && [ ${array[$2]} == "." ] && [ ${array[$3]} == $player_One_Symbol ]
+        	elif [ ${array[$1]} == $playerOneSymbol ] && [ ${array[$2]} == "." ] && [ ${array[$3]} == $playerOneSymbol ]
         	then
-                	array[$2]=$computer_Symbol
+                	array[$2]=$computerSymbol
 			valueSet=1
-        	elif [ ${array[$1]} == "." ] && [ ${array[$2]} == $player_One_Symbol ] && [ ${array[$3]} == $player_One_Symbol ]
+        	elif [ ${array[$1]} == "." ] && [ ${array[$2]} == $playerOneSymbol ] && [ ${array[$3]} == $playerOneSymbol ]
         	then
-                	array[$1]=$computer_Symbol
+                	array[$1]=$computerSymbol
 			valueSet=1
         	fi
 	fi
@@ -98,19 +98,19 @@ function checkForCorner(){
         then
         	if [ ${array[$1]} == "." ]
         	then
-        		array[$1]=$computer_Symbol
+        		array[$1]=$computerSymbol
 			valueSet=1
         	elif [ ${array[$2]} == "." ]
         	then
-                	array[$2]=$computer_Symbol
+                	array[$2]=$computerSymbol
 			valueSet=1
 		elif [ ${array[$3]} == "." ]
         	then
-                	array[$3]=$computer_Symbol
+                	array[$3]=$computerSymbol
 			valueSet=1
 		elif [ ${array[$4]} == "." ]
         	then
-                	array[$4]=$computer_Symbol
+                	array[$4]=$computerSymbol
 			valueSet=1
 		fi
 	fi
@@ -122,19 +122,19 @@ function checkForSide(){
         then
                 if [ ${array[$1]} == "." ]
                 then
-                        array[$1]=$computer_Symbol
+                        array[$1]=$computerSymbol
                         valueSet=1
                 elif [ ${array[$2]} == "." ]
                 then
-                        array[$2]=$computer_Symbol
+                        array[$2]=$computerSymbol
                         valueSet=1
                 elif [ ${array[$3]} == "." ]
                 then
-                        array[$3]=$computer_Symbol
+                        array[$3]=$computerSymbol
                         valueSet=1
                 elif [ ${array[$4]} == "." ]
                 then
-                        array[$4]=$computer_Symbol
+                        array[$4]=$computerSymbol
                         valueSet=1
                 fi
         fi
@@ -146,7 +146,7 @@ function checkForCentre(){
         then
 		if [ ${array[$1]} == "." ]
 		then
-			array[$1]=$computer_Symbol
+			array[$1]=$computerSymbol
 			valueSet=1
 		fi
 	fi
@@ -157,7 +157,7 @@ function tieCheck(){
 	if [ ${array[0]} != "." ] && [ ${array[1]} != "." ] && [ ${array[2]} != "." ] && [ ${array[3]} != "." ] && [ ${array[4]} != "." ] && 
 		[ ${array[5]} != "." ] && [ ${array[6]} != "." ] && [ ${array[7]} != "." ] && [ ${array[8]} != "." ]
 	then
-		game_Status=2
+		gameStatus=2
 	fi
 }
 
@@ -213,25 +213,25 @@ function assignSymbol(){
 	case $mode in
 		1) if [ $(( $RANDOM%2 )) -eq 1 ]
 	           then
-			player_One_Symbol=X
-                	computer_Symbol=O
+			playerOneSymbol=X
+                	computerSymbol=O
         	   else
-                	player_One_Symbol=O
-                	computer_Symbol=X
+                	playerOneSymbol=O
+                	computerSymbol=X
         	   fi
-        	   echo "player one symbol is : "$player_One_Symbol
-       		   echo "computer symbol is : "$computer_Symbol ;;
+        	   echo "player one symbol is : "$playerOneSymbol
+       		   echo "computer symbol is : "$computerSymbol ;;
 
         	2) if [ $(( $RANDOM%2 )) -eq 1 ]
         	   then
-                	player_One_Symbol=X
-			player_Two_Symbol=O
+                	playerOneSymbol=X
+			playerTwoSymbol=O
         	   else
-			player_One_Symbol=O
-                	player_Two_Symbol=X
+			playerOneSymbol=O
+                	playerTwoSymbol=X
         	   fi
-        	   echo "player one symbol is : "$player_One_Symbol
-		   echo "player two symbol is : "$player_Two_Symbol ;;
+        	   echo "player one symbol is : "$playerOneSymbol
+		   echo "player two symbol is : "$playerTwoSymbol ;;
 	esac
 }
 
@@ -276,9 +276,9 @@ function playerInput(){
 
 	if [ $player -eq 1 ]
 	then
-		player_Symbol=$player_One_Symbol
+		playerSymbol=$playerOneSymbol
 	else
-		player_Symbol=$player_Two_Symbol
+		playerSymbol=$playerTwoSymbol
 	fi
 		echo "to set a value enter : set [row number] [column number]"
 		echo "to restart the game enter : reset"
@@ -286,7 +286,7 @@ function playerInput(){
 
 		if [ $command == "set" ]
 		then
-			setBoard $row $column $player_Symbol
+			setBoard $row $column $playerSymbol
 		elif [ $command == "reset" ]
 		then
 			gameStart
@@ -328,28 +328,22 @@ function gameVsComputer(){
                 echo "player one turn"
         fi
 
-        while [ $game_Status -eq 1 ]
+        while [ $gameStatus -eq 1 ]
         do
                 printBoard
-
                 playerSelection
-
                 checkBoard
-
                 statusOfGame
         done
 }
 
 function gameStart(){
 
-	computer_Option=nothing
+	computerOption=nothing
 
 	reset
-
 	gameMode
-
         assignSymbol
-
 	toss
 
 	if [ $mode -eq 1 ]
@@ -358,7 +352,7 @@ function gameStart(){
 	else
 	        echo "player "$player "turn"
 
-		while [ $game_Status -eq 1 ]
+		while [ $gameStatus -eq 1 ]
 		do
         		printBoard
 			playerInput
