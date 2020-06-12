@@ -37,27 +37,54 @@ function statusOfGame(){
 }
 
 function checkmatch(){
-
-	case $computer_Option in
-		checkToWin) if [ ${array[$1]} == $computer_Symbol ] && [ ${array[$2]} == $computer_Symbol ] && [ ${array[$3]} == "." ]
-			    then 
-					array[$3]=$computer_Symbol
-			    elif [ ${array[$1]} == $computer_Symbol ] && [ ${array[$2]} == "." ] && [ ${array[$3]} == $computer_Symbol ]
-			    then 
-					 array[$2]=$computer_Symbol
-			    elif [ ${array[$1]} == "." ] && [ ${array[$2]} == $computer_Symbol ] && [ ${array[$3]} == $computer_Symbol ]
-			    then
-					array[$1]=$computer_Symbol
-			    fi ;;
-
-		nothing) echo " " ;;
-	esac 
-
 	if [ ${array[$1]} != "." ] && [ ${array[$1]} == ${array[$2]} ] && [ ${array[$2]} == ${array[$3]} ]
         then
                 game_Status=0
         fi
 
+}
+
+function checkToWin(){
+
+
+	if [ $valueSet -eq 0 ]
+	then
+		if [ ${array[$1]} == $computer_Symbol ] && [ ${array[$2]} == $computer_Symbol ] && [ ${array[$3]} == "." ]
+		then 
+			array[$3]=$computer_Symbol
+			valueSet=1
+		elif [ ${array[$1]} == $computer_Symbol ] && [ ${array[$2]} == "." ] && [ ${array[$3]} == $computer_Symbol ]
+		then 
+			array[$2]=$computer_Symbol
+			valueSet=1
+		elif [ ${array[$1]} == "." ] && [ ${array[$2]} == $computer_Symbol ] && [ ${array[$3]} == $computer_Symbol ]
+		then
+			array[$1]=$computer_Symbol
+			valueSet=1
+		fi 
+	fi
+
+}
+
+function checkToBlock(){
+
+	if [ $valueSet -eq 0 ]
+        then
+
+		if [ ${array[$1]} == $player_One_Symbol ] && [ ${array[$2]} == $player_One_Symbol ] && [ ${array[$3]} == "." ]
+        	then
+        		array[$3]=$computer_Symbol
+			valueSet=1
+        	elif [ ${array[$1]} == $player_One_Symbol ] && [ ${array[$2]} == "." ] && [ ${array[$3]} == $player_One_Symbol ]
+        	then
+                	array[$2]=$computer_Symbol
+			valueSet=1
+        	elif [ ${array[$1]} == "." ] && [ ${array[$2]} == $player_One_Symbol ] && [ ${array[$3]} == $player_One_Symbol ]
+        	then
+                	array[$1]=$computer_Symbol
+			valueSet=1
+        	fi
+	fi
 }
 
 function tieCheck(){
@@ -80,6 +107,7 @@ function checkBoard(){
 	checkmatch 2 5 8
 	checkmatch 0 4 8
 	checkmatch 2 4 6
+
 }
 
 function printBoard(){
@@ -156,7 +184,26 @@ function setBoard(){
 
 function computerInput(){
 
-	computer_Option=checkToWin
+	valueSet=0
+
+	checkToWin 0 1 2
+        checkToWin 3 4 5
+        checkToWin 6 7 8
+        checkToWin 0 3 6
+        checkToWin 1 4 7
+        checkToWin 2 5 8
+        checkToWin 0 4 8
+        checkToWin 2 4 6
+
+	checkToBlock 0 1 2
+        checkToBlock 3 4 5
+        checkToBlock 6 7 8
+        checkToBlock 0 3 6
+        checkToBlock 1 4 7
+        checkToBlock 2 5 8
+        checkToBlock 0 4 8
+        checkToBlock 2 4 6
+
 }
 
 function playerInput(){
@@ -167,7 +214,6 @@ function playerInput(){
 	else
 		player_Symbol=$player_Two_Symbol
 	fi
-
 		echo "to set a value enter : set [row number] [column number]"
 		echo "to restart the game enter : reset"
 		read -r command row column
