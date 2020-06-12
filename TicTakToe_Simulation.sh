@@ -6,6 +6,8 @@ echo "Starting a new game"
 
 array=(. . . . . . . . .)
 
+player=1
+
 function printBoard(){
 
 	echo "0   ${array[0]} ${array[1]} ${array[2]}"
@@ -14,3 +16,17 @@ function printBoard(){
 }
 
 printBoard
+
+function assignSymbol(){
+
+	if [ $(( $RANDOM%2 )) -eq 1 ]
+	then 
+		player_Symbol=X
+	else
+		player_Symbol=O
+	fi
+
+	echo "player symbol is : "$player_Symbol
+}
+
+assignSymbol
