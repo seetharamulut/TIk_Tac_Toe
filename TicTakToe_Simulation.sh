@@ -21,8 +21,18 @@ function checkmatch(){
 	fi
 }
 
+function tieCheck(){
+
+	if [ ${array[0]} != "." ] && [ ${array[1]} != "." ] && [ ${array[2]} != "." ] && [ ${array[3]} != "." ] && [ ${array[4]} != "." ] && 
+		[ ${array[5]} != "." ] && [ ${array[6]} != "." ] && [ ${array[7]} != "." ] && [ ${array[8]} != "." ]
+	then
+		game_Status=2
+	fi
+}
+
 function checkBoard(){
 
+	tieCheck
 	checkmatch 0 1 2
 	checkmatch 3 4 5
 	checkmatch 6 7 8
@@ -142,6 +152,11 @@ function gameStart(){
 		then 
 			printBoard
 			echo "player "$player "won the game"
+		elif [ $game_Status -eq 2 ]
+		then
+			print_Board
+			echo "match tied"
+			game_Status=0
 		else
 			player=$(( (( $player%2 ))+1 ))
 
