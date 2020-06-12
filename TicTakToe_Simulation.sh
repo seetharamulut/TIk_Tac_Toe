@@ -1,12 +1,14 @@
 #! /bin/bash/
 
+
 echo "Welcome to TicTakToe game"
 
 echo "Starting a new game"
 
-array=(. . . . . . . . .)
-
 player=1
+
+array=(. . . . . . . . . )
+
 
 function printBoard(){
 
@@ -14,8 +16,6 @@ function printBoard(){
 	echo "1   ${array[3]} ${array[4]} ${array[5]}"
 	echo "2   ${array[6]} ${array[7]} ${array[8]}"
 }
-
-printBoard
 
 function toss(){
 
@@ -36,6 +36,8 @@ function toss(){
 		echo "player lost toss"
 		player=$(( (( $player%2 ))+1 ))
 	fi
+
+	printBoard
 }
 
 function assignSymbol(){
