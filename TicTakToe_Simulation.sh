@@ -49,7 +49,7 @@ function checkmatch(){
 
 }
 
-function checkToWin(){
+function computerCheckToWin(){
 
 
 	if [ $valueSet -eq 0 ]
@@ -71,7 +71,7 @@ function checkToWin(){
 
 }
 
-function checkToBlock(){
+function computerCheckToBlock(){
 
 	if [ $valueSet -eq 0 ]
         then
@@ -92,7 +92,7 @@ function checkToBlock(){
 	fi
 }
 
-function checkForCorner(){
+function computerCheckForCorner(){
 
 	if [ $valueSet -eq 0 ]
         then
@@ -116,7 +116,7 @@ function checkForCorner(){
 	fi
 }
 
-function checkForSide(){
+function computerCheckForSide(){
 
         if [ $valueSet -eq 0 ]
         then
@@ -140,7 +140,7 @@ function checkForSide(){
         fi
 }
 
-function checkForCentre(){
+function computerCheckForCentre(){
 
 	if [ $valueSet -eq 0 ]
         then
@@ -182,7 +182,7 @@ function printBoard(){
 	echo "2   ${array[6]} ${array[7]} ${array[8]}"
 }
 
-function toss(){
+function tossSelection(){
 
 	echo "select :"
 
@@ -203,7 +203,7 @@ function toss(){
 		player=$(( (( $player%2 ))+1 ))
 	else
 		echo "enter valid input"
-		toss
+		tossSelection
 	fi
 
 }
@@ -251,25 +251,25 @@ function computerInput(){
 
 	valueSet=0
 
-	checkToWin 0 1 2
-        checkToWin 3 4 5
-        checkToWin 6 7 8
-        checkToWin 0 3 6
-        checkToWin 1 4 7
-        checkToWin 2 5 8
-        checkToWin 0 4 8
-        checkToWin 2 4 6
-	checkToBlock 0 1 2
-        checkToBlock 3 4 5
-        checkToBlock 6 7 8
-        checkToBlock 0 3 6
-        checkToBlock 1 4 7
-        checkToBlock 2 5 8
-        checkToBlock 0 4 8
-        checkToBlock 2 4 6
-	checkForCorner 0 2 6 8
-	checkForCentre 4
-	checkForSide 1 3 5 7
+	computerCheckToWin 0 1 2
+        computerCheckToWin 3 4 5
+        computerCheckToWin 6 7 8
+        computerCheckToWin 0 3 6
+        computerCheckToWin 1 4 7
+        computerCheckToWin 2 5 8
+        computerCheckToWin 0 4 8
+        computerCheckToWin 2 4 6
+	computerCheckToBlock 0 1 2
+        computerCheckToBlock 3 4 5
+        computerCheckToBlock 6 7 8
+        computerCheckToBlock 0 3 6
+        computerCheckToBlock 1 4 7
+        computerCheckToBlock 2 5 8
+        computerCheckToBlock 0 4 8
+        computerCheckToBlock 2 4 6
+	computerCheckForCorner 0 2 6 8
+	computerCheckForCentre 4
+	computerCheckForSide 1 3 5 7
 }
 
 function playerInput(){
@@ -337,14 +337,14 @@ function gameVsComputer(){
         done
 }
 
-function gameStart(){
+function startGame(){
 
 	computerOption=nothing
 
 	reset
 	gameMode
         assignSymbol
-	toss
+	tossSelection
 
 	if [ $mode -eq 1 ]
 	then
@@ -362,4 +362,4 @@ function gameStart(){
 	fi
 }
 
-gameStart
+startGame
