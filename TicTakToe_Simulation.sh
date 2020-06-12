@@ -116,6 +116,30 @@ function checkForCorner(){
 	fi
 }
 
+function checkForSide(){
+
+        if [ $valueSet -eq 0 ]
+        then
+                if [ ${array[$1]} == "." ]
+                then
+                        array[$1]=$computer_Symbol
+                        valueSet=1
+                elif [ ${array[$2]} == "." ]
+                then
+                        array[$2]=$computer_Symbol
+                        valueSet=1
+                elif [ ${array[$3]} == "." ]
+                then
+                        array[$3]=$computer_Symbol
+                        valueSet=1
+                elif [ ${array[$4]} == "." ]
+                then
+                        array[$4]=$computer_Symbol
+                        valueSet=1
+                fi
+        fi
+}
+
 function checkForCentre(){
 
 	if [ $valueSet -eq 0 ]
@@ -235,7 +259,6 @@ function computerInput(){
         checkToWin 2 5 8
         checkToWin 0 4 8
         checkToWin 2 4 6
-
 	checkToBlock 0 1 2
         checkToBlock 3 4 5
         checkToBlock 6 7 8
@@ -244,10 +267,9 @@ function computerInput(){
         checkToBlock 2 5 8
         checkToBlock 0 4 8
         checkToBlock 2 4 6
-
 	checkForCorner 0 2 6 8
-
 	checkForCentre 4
+	checkForSide 1 3 5 7
 }
 
 function playerInput(){
