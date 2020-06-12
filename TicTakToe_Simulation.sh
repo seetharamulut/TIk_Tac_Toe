@@ -1,4 +1,4 @@
-#! /bin/bash/ 
+#! /bin/bash/
 
 echo "Welcome to TicTakToe game"
 
@@ -17,16 +17,39 @@ function printBoard(){
 
 printBoard
 
+function toss(){
+
+	echo "select :"
+
+	echo "1) Head"
+
+	echo "2) Tails"
+
+	read -r tossSelected
+
+	tossValue=$(( (( $RANDOM%2 ))+1 ))
+
+	if [ $tossValue -eq $tossSelected ]
+	then
+		echo "player won the toss"
+	else
+		echo "player lost toss"
+		player=$(( (( $player%2 ))+1 ))
+	fi
+}
+
 function assignSymbol(){
 
-	if [ $(( $RANDOM%2 )) -eq 1 ]
-	then 
-		player_Symbol=X
-	else
-		player_Symbol=O
-	fi
+        if [ $(( $RANDOM%2 )) -eq 1 ]
+        then
+                player_Symbol=X
+        else
+                player_Symbol=O
+        fi
 
-	echo "player symbol is : "$player_Symbol
+        echo "player symbol is : "$player_Symbol
+
+        toss
 }
 
 assignSymbol
