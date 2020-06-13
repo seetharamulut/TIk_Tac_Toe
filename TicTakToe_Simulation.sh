@@ -78,28 +78,84 @@ function diagonalCheck(){
         fi
 }
 
-function computerCheckToWin(){
-
-
-	if [ $valueSet -eq 0 ]
-	then
-		if [ ${array[$1]} == $computerSymbol ] && [ ${array[$2]} == $computerSymbol ] && [ ${array[$3]} == "." ]
-		then 
-			array[$3]=$computerSymbol
-			valueSet=1
-		elif [ ${array[$1]} == $computerSymbol ] && [ ${array[$2]} == "." ] && [ ${array[$3]} == $computerSymbol ]
-		then 
-			array[$2]=$computerSymbol
-			valueSet=1
-		elif [ ${array[$1]} == "." ] && [ ${array[$2]} == $computerSymbol ] && [ ${array[$3]} == $computerSymbol ]
+function computerCheckToWinRow(){
+	valueSet=0
+	for (( i=0; i<3; i++ ))
+        do
+        	j=0
+		if [ $valueSet -eq 0 ]
 		then
-			array[$1]=$computerSymbol
-			valueSet=1
-		fi 
-	fi
-
+			if [ ${array[$(( $i *3 + $j ))]} == $computerSymbol ] && [ ${array[$(( $i *3 + $j+1 ))]} == $computerSymbol ] && [ ${array[$(( $i *3 + $j+2 ))]} == "." ]
+			then
+				array[$(( $i *3 + $j+2 ))]=$computerSymbol
+				valueSet=1
+			elif [ ${array[$(( $i *3 + $j ))]} == $computerSymbol ] && [ ${array[$(( $i *3 + $j+1 ))]} == "." ] && [ ${array[$(( $i *3 + $j+2 ))]} == $computerSymbol ]
+			then
+				array[$(( $i *3 + $j+1 ))]=$computerSymbol
+				valueSet=1
+			elif [ ${array[$(( $i *3 + $j ))]} == "." ] && [ ${array[$(( $i *3 + $j+1 ))]} == $computerSymbol ] && [ ${array[$(( $i *3 + $j+2 ))]} == $computerSymbol ]
+			then
+				array[$(( $i *3 + $j ))]=$computerSymbol
+				valueSet=1
+			fi
+		fi
+	done
 }
 
+function computerCheckToWinColumn(){
+	valueSet=0
+	for (( i=0; i<3; i++ ))
+        do
+                j=0
+                if [ $valueSet -eq 0 ]
+                then
+                        if [ ${array[$(( $j *3 + $i ))]} == $computerSymbol ] && [ ${array[$(( $j *3 + $i+1 ))]} == $computerSymbol ] && [ ${array[$(( $j *3 + $i+2 ))]} == "." ]
+                        then
+                                array[$(( $j *3 + $i+2 ))]=$computerSymbol
+                                valueSet=1
+                        elif [ ${array[$(( $j *3 + $i ))]} == $computerSymbol ] && [ ${array[$(( $j *3 + $i+1 ))]} == "." ] && [ ${array[$(( $j *3 + $i+2 ))]} == $computerSymbol ]
+                        then
+                                array[$(( $j *3 + $i+1 ))]=$computerSymbol
+                                valueSet=1
+                        elif [ ${array[$(( $j *3 + $i ))]} == "." ] && [ ${array[$(( $j *3 + $i+1 ))]} == $computerSymbol ] && [ ${array[$(( $j *3 + $i+2 ))]} == $computerSymbol ]
+                        then
+                                array[$(( $j *3 + $i ))]=$computerSymbol
+                                valueSet=1
+                        fi
+                fi
+        done
+}
+
+function computerCheckToWinDiagonal(){
+	if [ ${array[0]} == $computerSymbol ] && [ ${array[4]} == $computerSymbol ] && [ ${array[8]} == '.' ]
+        then
+        	array[8]=$computerSymbol
+                valueSet=1
+        elif [ ${array[0]} == $computerSymbol ] && [ ${array[4]} == "." ] && [ ${array[8] == $computerSymbol ]
+        then
+                array[4]=$computerSymbol
+                valueSet=1
+        elif [ ${array[0]} == "." ] && [ ${array[4]} == $computerSymbol ] && [ ${array[8] == $computerSymbol ]
+
+        then
+             	array[0]=$computerSymbol
+                valueSet=1
+        fi
+	if [ ${array[2]} == $computerSymbol ] && [ ${array[4]} == $computerSymbol ] && [ ${array[6]} == '.' ]
+        then
+                array[6]=$computerSymbol
+                valueSet=1
+        elif [ ${array[2]} == $computerSymbol ] && [ ${array[4]} == "." ] && [ ${array[6] == $computerSymbol ]
+        then
+                array[4]=$computerSymbol
+                valueSet=1
+        elif [ ${array[2]} == "." ] && [ ${array[4]} == $computerSymbol ] && [ ${array[6] == $computerSymbol ]
+
+        then
+                array[2]=$computerSymbol
+                valueSet=1
+        fi
+}
 function computerCheckToBlock(){
 
 	if [ $valueSet -eq 0 ]
@@ -275,14 +331,9 @@ function computerInput(){
 
 	valueSet=0
 
-	computerCheckToWin 0 1 2
-        computerCheckToWin 3 4 5
-        computerCheckToWin 6 7 8
-        computerCheckToWin 0 3 6
-        computerCheckToWin 1 4 7
-        computerCheckToWin 2 5 8
-        computerCheckToWin 0 4 8
-        computerCheckToWin 2 4 6
+	computerCheckToWinRow
+        computerCheckToWinColumn
+        computerCheckToWinDiagonal
 	computerCheckToBlock 0 1 2
         computerCheckToBlock 3 4 5
         computerCheckToBlock 6 7 8
