@@ -1,4 +1,4 @@
-#! /bin/bash/ 
+#! /bin/bash/ -x
 
 echo "Welcome to TicTakToe game"
 
@@ -16,7 +16,7 @@ function reset(){
 function statusOfGame(){
 
          if [ $gameStatus -eq 0 ]
-                then
+         then
                         printBoard
 			if [ $mode -eq 1 ] && [ $player -eq 2 ]
                          then
@@ -49,7 +49,6 @@ function columnCheck(){
 			if [ ${array[$(( $j *3 + $i ))]} != "." ] && [ ${array[$(( $j *3 + $i ))]} == ${array[$(( $j+1 *3 + $i ))]} ] && [ ${array[$(( $j+1 *3 + $i ))]} == ${array[$(( $j+2 *3 + $i ))]} ]
 			then
 				gameStatus=0
-				break
 			fi
 		done
 }
@@ -59,10 +58,9 @@ function rowCheck(){
                 for (( i=0; i<3; i++ ))
                 do
                         j=0
-                        if [ ${array[$(( $i *3 + $j ))]} != "." ] && [ ${array[$(( $i *3 + $j ))]} == ${array[$(( $i *3 + $j+1 ))]} ] && [ ${arr>
+                        if [ ${array[$(( $i *3 + $j ))]} != "." ] && [ ${array[$(( $i *3 + $j ))]} == ${array[$(( $i *3 + $j+1 ))]} ] && [ ${array[$(( $i *3 + $j+1 ))]} == array[$(( $i *3 + $j+2 ))]} ]
                         then
                                 gameStatus=0
-                                break
                         fi
                 done
 }
@@ -79,7 +77,7 @@ function diagonalCheck(){
 }
 
 function computerCheckToWinRow(){
-	valueSet=0
+
 	for (( i=0; i<3; i++ ))
         do
         	j=0
@@ -103,21 +101,21 @@ function computerCheckToWinRow(){
 }
 
 function computerCheckToWinColumn(){
-	valueSet=0
+
 	for (( i=0; i<3; i++ ))
         do
                 j=0
                 if [ $valueSet -eq 0 ]
                 then
-                        if [ ${array[$(( $j *3 + $i ))]} == $computerSymbol ] && [ ${array[$(( $j *3 + $i+1 ))]} == $computerSymbol ] && [ ${array[$(( $j *3 + $i+2 ))]} == "." ]
+                        if [ ${array[$(( $j *3 + $i ))]} == $computerSymbol ] && [ ${array[$(( $j+1 *3 + $i ))]} == $computerSymbol ] && [ ${array[$(( $j+2 *3 + $i ))]} == "." ]
                         then
-                                array[$(( $j *3 + $i+2 ))]=$computerSymbol
+                                array[$(( $j+2 *3 + $i ))]=$computerSymbol
                                 valueSet=1
-                        elif [ ${array[$(( $j *3 + $i ))]} == $computerSymbol ] && [ ${array[$(( $j *3 + $i+1 ))]} == "." ] && [ ${array[$(( $j *3 + $i+2 ))]} == $computerSymbol ]
+                        elif [ ${array[$(( $j *3 + $i ))]} == $computerSymbol ] && [ ${array[$(( $j+1 *3 + $i ))]} == "." ] && [ ${array[$(( $j+2 *3 + $i ))]} == $computerSymbol ]
                         then
-                                array[$(( $j *3 + $i+1 ))]=$computerSymbol
+                                array[$(( $j+1 *3 + $i ))]=$computerSymbol
                                 valueSet=1
-                        elif [ ${array[$(( $j *3 + $i ))]} == "." ] && [ ${array[$(( $j *3 + $i+1 ))]} == $computerSymbol ] && [ ${array[$(( $j *3 + $i+2 ))]} == $computerSymbol ]
+                        elif [ ${array[$(( $j *3 + $i ))]} == "." ] && [ ${array[$(( $j+1 *3 + $i ))]} == $computerSymbol ] && [ ${array[$(( $j+2 *3 + $i ))]} == $computerSymbol ]
                         then
                                 array[$(( $j *3 + $i ))]=$computerSymbol
                                 valueSet=1
@@ -127,52 +125,113 @@ function computerCheckToWinColumn(){
 }
 
 function computerCheckToWinDiagonal(){
-	if [ ${array[0]} == $computerSymbol ] && [ ${array[4]} == $computerSymbol ] && [ ${array[8]} == '.' ]
-        then
-        	array[8]=$computerSymbol
-                valueSet=1
-        elif [ ${array[0]} == $computerSymbol ] && [ ${array[4]} == "." ] && [ ${array[8] == $computerSymbol ]
-        then
-                array[4]=$computerSymbol
-                valueSet=1
-        elif [ ${array[0]} == "." ] && [ ${array[4]} == $computerSymbol ] && [ ${array[8] == $computerSymbol ]
 
-        then
-             	array[0]=$computerSymbol
-                valueSet=1
-        fi
-	if [ ${array[2]} == $computerSymbol ] && [ ${array[4]} == $computerSymbol ] && [ ${array[6]} == '.' ]
-        then
-                array[6]=$computerSymbol
-                valueSet=1
-        elif [ ${array[2]} == $computerSymbol ] && [ ${array[4]} == "." ] && [ ${array[6] == $computerSymbol ]
-        then
-                array[4]=$computerSymbol
-                valueSet=1
-        elif [ ${array[2]} == "." ] && [ ${array[4]} == $computerSymbol ] && [ ${array[6] == $computerSymbol ]
-
-        then
-                array[2]=$computerSymbol
-                valueSet=1
-        fi
+	if [ $valueSet -eq 0 ]
+	then
+		if [ ${array[0]} == $computerSymbol ] && [ ${array[4]} == $computerSymbol ] && [ ${array[8]} == '.' ]
+        	then
+        		array[8]=$computerSymbol
+                	valueSet=1
+        	elif [ ${array[0]} == $computerSymbol ] && [ ${array[4]} == "." ] && [ ${array[8]} == $computerSymbol ]
+        	then
+                	array[4]=$computerSymbol
+                	valueSet=1
+        	elif [ ${array[0]} == "." ] && [ ${array[4]} == $computerSymbol ] && [ ${array[8]} == $computerSymbol ]
+        	then
+             		array[0]=$computerSymbol
+                	valueSet=1
+		elif [ ${array[2]} == $computerSymbol ] && [ ${array[4]} == $computerSymbol ] && [ ${array[6]} == '.' ]
+        	then
+                	array[6]=$computerSymbol
+                	valueSet=1
+        	elif [ ${array[2]} == $computerSymbol ] && [ ${array[4]} == "." ] && [ ${array[6]} == $computerSymbol ]
+        	then
+                	array[4]=$computerSymbol
+                	valueSet=1
+        	elif [ ${array[2]} == "." ] && [ ${array[4]} == $computerSymbol ] && [ ${array[6]} == $computerSymbol ]
+        	then
+                	array[2]=$computerSymbol
+                	valueSet=1
+        	fi
+	fi
 }
-function computerCheckToBlock(){
+
+function computerCheckToBlockRow(){
+
+        for (( i=0; i<3; i++ ))
+        do
+                j=0
+                if [ $valueSet -eq 0 ]
+                then
+                        if [ ${array[$(( $i *3 + $j ))]} == $playerOneSymbol ] && [ ${array[$(( $i *3 + $j+1 ))]} == $playerOneSymbol ] && [ ${array[$(( $i *3 + $j+2 ))]} == "." ]
+                        then
+                                array[$(( $i *3 + $j+2 ))]=$computerSymbol
+                                valueSet=1
+                        elif [ ${array[$(( $i *3 + $j ))]} == $playerOneSymbol ] && [ ${array[$(( $i *3 + $j+1 ))]} == "." ] && [ ${array[$((  $i *3 + $j+2 ))]} == $playerOneSymbol ]
+                        then
+                                array[$(( $i *3 + $j+1 ))]=$computerSymbol
+                                valueSet=1
+                        elif [ ${array[$(( $i *3 + $j ))]} == "." ] && [ ${array[$(( $i *3 + $j+1 ))]} == $playerOneSymbol ] && [ ${array[$((  $i *3 + $j+2 ))]} == $playerOneSymbol ]
+                        then
+                                array[$(( $i *3 + $j ))]=$computerSymbol
+                                valueSet=1
+                        fi
+                fi
+        done
+}
+
+function computerCheckToBlockColumn(){
+
+        for (( i=0; i<3; i++ ))
+        do
+                j=0
+                if [ $valueSet -eq 0 ]
+                then
+                        if [ ${array[$(( $j *3 + $i ))]} == $playerOneSymbol ] && [ ${array[$(( $j+1 *3 + $i ))]} == $playerOneSymbol ] && [ ${array[$(( $j+2 *3 + $i ))]} == "." ]
+                        then
+                                array[$(( $j+1 *3 + $i ))]=$computerSymbol
+                                valueSet=1
+                        elif [ ${array[$(( $j *3 + $i ))]} == $playerOneSymbol ] && [ ${array[$(( $j+1 *3 + $i ))]} == "." ] && [ ${array[$(( $j+2 *3 + $i ))]} == $playerOneSymbol ]
+                        then
+                                array[$(( $j+1 *3 + $i ))]=$computerSymbol
+                                valueSet=1
+                        elif [ ${array[$(( $j *3 + $i ))]} == "." ] && [ ${array[$(( $j+1 *3 + $i ))]} == $playerOneSymbol ] && [ ${array[$(( $j+2  *3 + $i ))]} == $playerOneSymbol ]
+                        then
+                                array[$(( $j *3 + $i ))]=$computerSymbol
+                                valueSet=1
+                        fi
+                fi
+        done
+}
+
+function computerCheckToBlockDiagonal(){
 
 	if [ $valueSet -eq 0 ]
         then
-
-		if [ ${array[$1]} == $playerOneSymbol ] && [ ${array[$2]} == $playerOneSymbol ] && [ ${array[$3]} == "." ]
+        	if [ ${array[0]} == $playerOneSymbol ] && [ ${array[4]} == $playerOneSymbol ] && [ ${array[8]} == '.' ]
         	then
-        		array[$3]=$computerSymbol
-			valueSet=1
-        	elif [ ${array[$1]} == $playerOneSymbol ] && [ ${array[$2]} == "." ] && [ ${array[$3]} == $playerOneSymbol ]
+                	array[8]=$computerSymbol
+                	valueSet=1
+        	elif [ ${array[0]} == $playerOneSymbol ] && [ ${array[4]} == "." ] && [ ${array[8]} == $playerOneSymbol ]
         	then
-                	array[$2]=$computerSymbol
-			valueSet=1
-        	elif [ ${array[$1]} == "." ] && [ ${array[$2]} == $playerOneSymbol ] && [ ${array[$3]} == $playerOneSymbol ]
+                	array[4]=$computerSymbol
+                	valueSet=1
+        	elif [ ${array[0]} == "." ] && [ ${array[4]} == $playerOneSymbol ] && [ ${array[8]} == $playerOneSymbol ]
         	then
-                	array[$1]=$computerSymbol
-			valueSet=1
+                	array[0]=$computerSymbol
+                	valueSet=1
+        	elif [ ${array[2]} == $playerOneSymbol ] && [ ${array[4]} == $playerOneSymbol ] && [ ${array[6]} == '.' ]
+        	then
+                	array[6]=$computerSymbol
+                	valueSet=1
+        	elif [ ${array[2]} == $playerOneSymbol ] && [ ${array[4]} == "." ] && [ ${array[6]} == $playerOneSymbol ]
+        	then
+        	        array[4]=$computerSymbol
+                	valueSet=1
+        	elif [ ${array[2]} == "." ] && [ ${array[4]} == $playerOneSymbol ] && [ ${array[6]} == $playerOneSymbol ]
+        	then
+                	array[2]=$computerSymbol
+                	valueSet=1
         	fi
 	fi
 }
@@ -330,18 +389,12 @@ function setBoard(){
 function computerInput(){
 
 	valueSet=0
-
 	computerCheckToWinRow
         computerCheckToWinColumn
         computerCheckToWinDiagonal
-	computerCheckToBlock 0 1 2
-        computerCheckToBlock 3 4 5
-        computerCheckToBlock 6 7 8
-        computerCheckToBlock 0 3 6
-        computerCheckToBlock 1 4 7
-        computerCheckToBlock 2 5 8
-        computerCheckToBlock 0 4 8
-        computerCheckToBlock 2 4 6
+	computerCheckToBlockRow
+        computerCheckToBlockColumn
+        computerCheckToBlockDiagonal
 	computerCheckForCorner 0 2 6 8
 	computerCheckForCentre 4
 	computerCheckForSide 1 3 5 7
@@ -413,9 +466,6 @@ function gameVsComputer(){
 }
 
 function startGame(){
-
-	computerOption=nothing
-
 	reset
 	gameMode
         assignSymbol
