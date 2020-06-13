@@ -19,7 +19,7 @@ function statusOfGame(){
                 then
                         printBoard
 			if [ $mode -eq 1 ] && [ $player -eq 2 ]
-                        then
+                         then
                                 echo "computer won the game"
                         else
                                 echo "player "$player "won the game"
@@ -41,13 +41,26 @@ function statusOfGame(){
 	fi
 }
 
-function checkmatch(){
-	if [ ${array[$1]} != "." ] && [ ${array[$1]} == ${array[$2]} ] && [ ${array[$2]} == ${array[$3]} ]
-        then
-                gameStatus=0
-        fi
+#function checkmatch(){
+#	if [ ${array[$1]} != "." ] && [ ${array[$1]} == ${array[$2]} ] && [ ${array[$2]} == ${array[$3]} ]
+#        then
+#                gameStatus=0
+#        fi
+#}
 
+function columnCheck(){
+
+		for (( i=0; i<3; i++ ))
+		do
+			j=0
+			if [ ${array[$(( $j *3 + $i ))]} != "." ] && [ ${array[$(( $j *3 + $i ))]} == ${array[$(( $j+1 *3 + $i ))]} ] && [ ${array[$(( $j+1 *3 + $i ))]} == ${array[$(( $j+2 *3 + $i ))]} ]
+			then
+				gameStatus=0
+				break
+			fi
+		done
 }
+
 
 function computerCheckToWin(){
 
@@ -164,15 +177,9 @@ function tieCheck(){
 function checkBoard(){
 
 	tieCheck
-	checkmatch 0 1 2
-	checkmatch 3 4 5
-	checkmatch 6 7 8
-	checkmatch 0 3 6
-	checkmatch 1 4 7
-	checkmatch 2 5 8
-	checkmatch 0 4 8
-	checkmatch 2 4 6
-
+	rowCheck
+	columnCheck
+	diagonalCheck
 }
 
 function printBoard(){
@@ -244,6 +251,7 @@ function setBoard(){
 		array[$arrayId]=$3
 	else
 		echo "cannot place there"
+		player=$(( (( $player%2 ))+1 ))
 	fi
 }
 
@@ -289,7 +297,7 @@ function playerInput(){
 			setBoard $row $column $playerSymbol
 		elif [ $command == "reset" ]
 		then
-			gameStart
+			startGame
 		else
 			echo "enter a valid input"
 			playerInput
