@@ -1,4 +1,4 @@
-#! /bin/bash/ -x
+#! /bin/bash/ 
 
 echo "Welcome to TicTakToe game"
 
@@ -189,7 +189,7 @@ function computerCheckToBlockColumn(){
                 then
                         if [ ${array[$(( $j *3 + $i ))]} == $playerOneSymbol ] && [ ${array[$(( $j+1 *3 + $i ))]} == $playerOneSymbol ] && [ ${array[$(( $j+2 *3 + $i ))]} == "." ]
                         then
-                                array[$(( $j+1 *3 + $i ))]=$computerSymbol
+                                array[$(( $j+2 *3 + $i ))]=$computerSymbol
                                 valueSet=1
                         elif [ ${array[$(( $j *3 + $i ))]} == $playerOneSymbol ] && [ ${array[$(( $j+1 *3 + $i ))]} == "." ] && [ ${array[$(( $j+2 *3 + $i ))]} == $playerOneSymbol ]
                         then
@@ -240,21 +240,21 @@ function computerCheckForCorner(){
 
 	if [ $valueSet -eq 0 ]
         then
-        	if [ ${array[$1]} == "." ]
+        	if [ ${array[0]} == "." ]
         	then
-        		array[$1]=$computerSymbol
+        		array[0]=$computerSymbol
 			valueSet=1
-        	elif [ ${array[$2]} == "." ]
+        	elif [ ${array[2]} == "." ]
         	then
-                	array[$2]=$computerSymbol
+                	array[2]=$computerSymbol
 			valueSet=1
-		elif [ ${array[$3]} == "." ]
+		elif [ ${array[6]} == "." ]
         	then
-                	array[$3]=$computerSymbol
+                	array[6]=$computerSymbol
 			valueSet=1
-		elif [ ${array[$4]} == "." ]
+		elif [ ${array[8]} == "." ]
         	then
-                	array[$4]=$computerSymbol
+                	array[8]=$computerSymbol
 			valueSet=1
 		fi
 	fi
@@ -264,21 +264,21 @@ function computerCheckForSide(){
 
         if [ $valueSet -eq 0 ]
         then
-                if [ ${array[$1]} == "." ]
+                if [ ${array[1]} == "." ]
                 then
-                        array[$1]=$computerSymbol
+                        array[1]=$computerSymbol
                         valueSet=1
-                elif [ ${array[$2]} == "." ]
+                elif [ ${array[3]} == "." ]
                 then
-                        array[$2]=$computerSymbol
+                        array[3]=$computerSymbol
                         valueSet=1
-                elif [ ${array[$3]} == "." ]
+                elif [ ${array[5]} == "." ]
                 then
-                        array[$3]=$computerSymbol
+                        array[5]=$computerSymbol
                         valueSet=1
-                elif [ ${array[$4]} == "." ]
+                elif [ ${array[7]} == "." ]
                 then
-                        array[$4]=$computerSymbol
+                        array[7]=$computerSymbol
                         valueSet=1
                 fi
         fi
@@ -288,9 +288,9 @@ function computerCheckForCentre(){
 
 	if [ $valueSet -eq 0 ]
         then
-		if [ ${array[$1]} == "." ]
+		if [ ${array[4]} == "." ]
 		then
-			array[$1]=$computerSymbol
+			array[4]=$computerSymbol
 			valueSet=1
 		fi
 	fi
@@ -395,9 +395,9 @@ function computerInput(){
 	computerCheckToBlockRow
         computerCheckToBlockColumn
         computerCheckToBlockDiagonal
-	computerCheckForCorner 0 2 6 8
-	computerCheckForCentre 4
-	computerCheckForSide 1 3 5 7
+	computerCheckForCorner
+	computerCheckForCentre
+	computerCheckForSide
 }
 
 function playerInput(){
