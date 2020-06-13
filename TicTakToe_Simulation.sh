@@ -67,6 +67,17 @@ function rowCheck(){
                 done
 }
 
+function diagonalCheck(){
+
+        if [ ${array[0]} != "." ] && [ ${array[0]} == ${array[4]} ] && [ ${array[4]} == ${array[8]} ]
+        then
+                gameStatus=0
+        elif [ ${array[2]} != "." ] && [ ${array[2]} == ${array[4]} ] && [ ${array[4]} == ${array[6]} ]
+        then
+                gameStatus=0
+        fi
+}
+
 function computerCheckToWin(){
 
 
