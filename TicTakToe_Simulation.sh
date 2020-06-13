@@ -41,13 +41,6 @@ function statusOfGame(){
 	fi
 }
 
-#function checkmatch(){
-#	if [ ${array[$1]} != "." ] && [ ${array[$1]} == ${array[$2]} ] && [ ${array[$2]} == ${array[$3]} ]
-#        then
-#                gameStatus=0
-#        fi
-#}
-
 function columnCheck(){
 
 		for (( i=0; i<3; i++ ))
@@ -61,6 +54,18 @@ function columnCheck(){
 		done
 }
 
+function rowCheck(){
+
+                for (( i=0; i<3; i++ ))
+                do
+                        j=0
+                        if [ ${array[$(( $i *3 + $j ))]} != "." ] && [ ${array[$(( $i *3 + $j ))]} == ${array[$(( $i *3 + $j+1 ))]} ] && [ ${arr>
+                        then
+                                gameStatus=0
+                                break
+                        fi
+                done
+}
 
 function computerCheckToWin(){
 
