@@ -85,7 +85,7 @@ function computerCheckToWinRow(){
 		then
 			if [ ${array[$(( $i *3 + $j ))]} == $computerSymbol ] && [ ${array[$(( $i *3 + $j+1 ))]} == $computerSymbol ] && [ ${array[$(( $i *3 + $j+2 ))]} == "." ]
 			then
-				array[$(( $i *3 + $j+2 ))]=$computerSymbol
+	valueSet=0			array[$(( $i *3 + $j+2 ))]=$computerSymbol
 				valueSet=1
 			elif [ ${array[$(( $i *3 + $j ))]} == $computerSymbol ] && [ ${array[$(( $i *3 + $j+1 ))]} == "." ] && [ ${array[$(( $i *3 + $j+2 ))]} == $computerSymbol ]
 			then
@@ -124,33 +124,33 @@ function computerCheckToWinColumn(){
         done
 }
 
-function computerCheckToWinDiagonal(){
+function computerCheckDiagonal(){
 
 	if [ $valueSet -eq 0 ]
 	then
-		if [ ${array[0]} == $computerSymbol ] && [ ${array[4]} == $computerSymbol ] && [ ${array[8]} == '.' ]
+		if [ ${array[0]} == $1 ] && [ ${array[4]} == $1 ] && [ ${array[8]} == '.' ]
         	then
-        		array[8]=$computerSymbol
+        		array[8]=$2
                 	valueSet=1
-        	elif [ ${array[0]} == $computerSymbol ] && [ ${array[4]} == "." ] && [ ${array[8]} == $computerSymbol ]
+        	elif [ ${array[0]} == $1 ] && [ ${array[4]} == "." ] && [ ${array[8]} == $1 ]
         	then
-                	array[4]=$computerSymbol
+                	array[4]=$2
                 	valueSet=1
-        	elif [ ${array[0]} == "." ] && [ ${array[4]} == $computerSymbol ] && [ ${array[8]} == $computerSymbol ]
+        	elif [ ${array[0]} == "." ] && [ ${array[4]} == $1 ] && [ ${array[8]} == $1 ]
         	then
-             		array[0]=$computerSymbol
+             		array[0]=$2
                 	valueSet=1
-		elif [ ${array[2]} == $computerSymbol ] && [ ${array[4]} == $computerSymbol ] && [ ${array[6]} == '.' ]
+		elif [ ${array[2]} == $1 ] && [ ${array[4]} == $1 ] && [ ${array[6]} == '.' ]
         	then
-                	array[6]=$computerSymbol
+                	array[6]=$2
                 	valueSet=1
-        	elif [ ${array[2]} == $computerSymbol ] && [ ${array[4]} == "." ] && [ ${array[6]} == $computerSymbol ]
+        	elif [ ${array[2]} == $1 ] && [ ${array[4]} == "." ] && [ ${array[6]} == $1 ]
         	then
-                	array[4]=$computerSymbol
+                	array[4]=$2
                 	valueSet=1
-        	elif [ ${array[2]} == "." ] && [ ${array[4]} == $computerSymbol ] && [ ${array[6]} == $computerSymbol ]
+        	elif [ ${array[2]} == "." ] && [ ${array[4]} == $1 ] && [ ${array[6]} == $1 ]
         	then
-                	array[2]=$computerSymbol
+                	array[2]=$2
                 	valueSet=1
         	fi
 	fi
@@ -204,84 +204,47 @@ function computerCheckToBlockColumn(){
         done
 }
 
-function computerCheckToBlockDiagonal(){
-
-	if [ $valueSet -eq 0 ]
-        then
-        	if [ ${array[0]} == $playerOneSymbol ] && [ ${array[4]} == $playerOneSymbol ] && [ ${array[8]} == '.' ]
-        	then
-                	array[8]=$computerSymbol
-                	valueSet=1
-        	elif [ ${array[0]} == $playerOneSymbol ] && [ ${array[4]} == "." ] && [ ${array[8]} == $playerOneSymbol ]
-        	then
-                	array[4]=$computerSymbol
-                	valueSet=1
-        	elif [ ${array[0]} == "." ] && [ ${array[4]} == $playerOneSymbol ] && [ ${array[8]} == $playerOneSymbol ]
-        	then
-                	array[0]=$computerSymbol
-                	valueSet=1
-        	elif [ ${array[2]} == $playerOneSymbol ] && [ ${array[4]} == $playerOneSymbol ] && [ ${array[6]} == '.' ]
-        	then
-                	array[6]=$computerSymbol
-                	valueSet=1
-        	elif [ ${array[2]} == $playerOneSymbol ] && [ ${array[4]} == "." ] && [ ${array[6]} == $playerOneSymbol ]
-        	then
-        	        array[4]=$computerSymbol
-                	valueSet=1
-        	elif [ ${array[2]} == "." ] && [ ${array[4]} == $playerOneSymbol ] && [ ${array[6]} == $playerOneSymbol ]
-        	then
-                	array[2]=$computerSymbol
-                	valueSet=1
-        	fi
-	fi
-}
 
 function computerCheckForCorner(){
 
-	if [ $valueSet -eq 0 ]
-        then
-        	if [ ${array[0]} == "." ]
-        	then
-        		array[0]=$computerSymbol
-			valueSet=1
-        	elif [ ${array[2]} == "." ]
-        	then
-                	array[2]=$computerSymbol
-			valueSet=1
-		elif [ ${array[6]} == "." ]
-        	then
-                	array[6]=$computerSymbol
-			valueSet=1
-		elif [ ${array[8]} == "." ]
-        	then
-                	array[8]=$computerSymbol
-			valueSet=1
+	for (( i=0; i<3; i=$(( $i+2 )) ))
+	do
+		if [ $valueSet -eq 0 ]
+       		then
+			j=0
+			if [ ${array[$(( $i *3 + $j ))]} == "." ]
+        		then
+        			array[$(( $i *3 + $j ))]=$computerSymbol
+                		valueSet=1
+			elif [ ${array[$(( $i *3 + $j+2 ))]} == "." ]
+ 		       then
+                		array[$(( $i *3 + $j+2 ))]=$computerSymbol
+                		valueSet=1
+
+			fi
 		fi
-	fi
+	done
 }
 
 function computerCheckForSide(){
 
-        if [ $valueSet -eq 0 ]
-        then
-                if [ ${array[1]} == "." ]
-                then
-                        array[1]=$computerSymbol
-                        valueSet=1
-                elif [ ${array[3]} == "." ]
-                then
-                        array[3]=$computerSymbol
-                        valueSet=1
-                elif [ ${array[5]} == "." ]
-                then
-                        array[5]=$computerSymbol
-                        valueSet=1
-                elif [ ${array[7]} == "." ]
-                then
-                        array[7]=$computerSymbol
-                        valueSet=1
-                fi
-        fi
+	for (( i=0; i<3; i++ ))
+	do
+  		if [ $valueSet -eq 0 ]
+      		then
+			j=1
+ 			if [ ${array[$(( $i *3 + $j ))]} == "." ]
+                	then
+                        	array[$(( $i *3 + $j ))]=$computerSymbol
+                        	valueSet=1
+                	elif [ ${array[$(( $i+1 *3 + $j-1 ))]} == "." ]
+                	then
+                        	array[$(( $i+1 *3 + $j-1 ))]=$computerSymbol
+                        	valueSet=1
+			fi
+			j=$(( $j+2 ))
+		fi
+	done
 }
 
 function computerCheckForCentre(){
@@ -315,9 +278,10 @@ function checkBoard(){
 
 function printBoard(){
 
-	echo "0   ${array[0]} ${array[1]} ${array[2]}"
-	echo "1   ${array[3]} ${array[4]} ${array[5]}"
-	echo "2   ${array[6]} ${array[7]} ${array[8]}"
+	echo "   ${array[0]} ${array[1]} ${array[2]}"
+	echo "   ${array[3]} ${array[4]} ${array[5]}"
+	echo "   ${array[6]} ${array[7]} ${array[8]}"
+	echo "   -----"
 }
 
 function tossSelection(){
@@ -391,10 +355,10 @@ function computerInput(){
 	valueSet=0
 	computerCheckToWinRow
         computerCheckToWinColumn
-        computerCheckToWinDiagonal
+        computerCheckDiagonal $computerSymbol $computerSymbol 
 	computerCheckToBlockRow
         computerCheckToBlockColumn
-        computerCheckToBlockDiagonal
+        computerCheckDiagonal $playerSymbol $computerSymbol 
 	computerCheckForCorner
 	computerCheckForCentre
 	computerCheckForSide
@@ -408,7 +372,7 @@ function playerInput(){
 	else
 		playerSymbol=$playerTwoSymbol
 	fi
-		echo "to set a value enter : set [row number] [column number]"
+		echo "to set a value enter : set row number column number"
 		echo "to restart the game enter : reset"
 		read -r command row column
 
